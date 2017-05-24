@@ -23,7 +23,7 @@ import (
 
 const (
 	// VERSION represent beego web framework version.
-	VERSION = "1.8.3"
+	VERSION = "1.8.2"
 
 	// DEV is for develop
 	DEV = "dev"
@@ -35,6 +35,7 @@ const (
 type hookfunc func() error
 
 var (
+	//需要在启动阶段触发的函数 但是不关心处理结果
 	hooks = make([]hookfunc, 0) //hook function slice to store the hookfunc
 )
 
@@ -42,6 +43,7 @@ var (
 // The hookfuncs will run in beego.Run()
 // such as sessionInit, middlerware start, buildtemplate, admin start
 func AddAPPStartHook(hf hookfunc) {
+	//追加hooks到切片
 	hooks = append(hooks, hf)
 }
 
@@ -51,7 +53,7 @@ func AddAPPStartHook(hf hookfunc) {
 // beego.Run(":8089")
 // beego.Run("127.0.0.1:8089")
 func Run(params ...string) {
-
+	//启动的参数 是不定参数
 	initBeforeHTTPRun()
 
 	if len(params) > 0 && params[0] != "" {
