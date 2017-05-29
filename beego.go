@@ -55,7 +55,7 @@ func AddAPPStartHook(hf hookfunc) {
 func Run(params ...string) {
 	//启动的参数 是不定参数
 	initBeforeHTTPRun()
-
+	//参数分析
 	if len(params) > 0 && params[0] != "" {
 		strs := strings.Split(params[0], ":")
 		if len(strs) > 0 && strs[0] != "" {
@@ -70,16 +70,17 @@ func Run(params ...string) {
 }
 
 func initBeforeHTTPRun() {
-	//init hooks
+	//init hooks 追加到hooks中去
 	AddAPPStartHook(registerMime)
 	AddAPPStartHook(registerDefaultErrorHandler)
 	AddAPPStartHook(registerSession)
 	AddAPPStartHook(registerTemplate)
 	AddAPPStartHook(registerAdmin)
 	AddAPPStartHook(registerGzip)
-
+	//触发hooks中的函数
 	for _, hk := range hooks {
 		if err := hk(); err != nil {
+			//如果出现问题 触发panic 终止项目
 			panic(err)
 		}
 	}
