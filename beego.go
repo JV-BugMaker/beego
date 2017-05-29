@@ -55,7 +55,7 @@ func AddAPPStartHook(hf hookfunc) {
 func Run(params ...string) {
 	//启动的参数 是不定参数
 	initBeforeHTTPRun()
-	//参数分析
+	//参数分析 给BConfig进行赋值 早BeeApp中真正执行Run动作
 	if len(params) > 0 && params[0] != "" {
 		strs := strings.Split(params[0], ":")
 		if len(strs) > 0 && strs[0] != "" {
@@ -86,7 +86,7 @@ func initBeforeHTTPRun() {
 	}
 }
 
-// TestBeegoInit is for test package init
+// TestBeegoInit is for test package init  测试项目
 func TestBeegoInit(ap string) {
 	path := filepath.Join(ap, "conf", "app.conf")
 	os.Chdir(ap)

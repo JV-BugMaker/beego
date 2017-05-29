@@ -56,6 +56,7 @@ func (app *App) Run() {
 	addr := BConfig.Listen.HTTPAddr
 
 	if BConfig.Listen.HTTPPort != 0 {
+		//主机地址  监听端口
 		addr = fmt.Sprintf("%s:%d", BConfig.Listen.HTTPAddr, BConfig.Listen.HTTPPort)
 	}
 
@@ -65,7 +66,7 @@ func (app *App) Run() {
 		endRunning = make(chan bool, 1)
 	)
 
-	// run cgi server
+	// run cgi server common gateway interface
 	if BConfig.Listen.EnableFcgi {
 		if BConfig.Listen.EnableStdIo {
 			if err = fcgi.Serve(nil, app.Handlers); err == nil { // standard I/O
@@ -90,6 +91,7 @@ func (app *App) Run() {
 		if err = fcgi.Serve(l, app.Handlers); err != nil {
 			logs.Critical("fcgi.Serve: ", err)
 		}
+		//使用fcgi方式 到此 启动run
 		return
 	}
 
